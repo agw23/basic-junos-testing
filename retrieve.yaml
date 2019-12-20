@@ -1,0 +1,53 @@
+---
+- name: Retrieving facts
+  hosts: Junos
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  vars_prompt:
+  - name: "destination"
+    prompt: "Enter the static route destination, for example 10.10.0.0/24. Will default if nothing is entered."
+    default: "10.10.0.0/24"
+    private: no
+
+  - name: "next_hop"
+    prompt: "Enter the next hop for the route. Will default if nothing is entered."
+    default: "10.10.0.1"
+    private: no
+
+  - name: "interface"
+    prompt: "Enter the interface you would like to configure. Eg. ge-0/0/0. Will default to one if nothing is entered."
+    default: "ge-0/0/12"
+    private: no
+
+  - name: "address"
+    prompt: "Enter IP address for interface"
+    default: "10.10.0.20"
+    private: no
+
+  - name: "mask"
+    prompt: "Enter mask for IP address above. Default is 24."
+    default: "24"
+    private: no
+
+  tasks:
+    - name: setting static route
+      juniper_junos_config:
+        provider:
+          #host: 66.129.238.131
+          host: 66.129.238.131
+          port: 40000
+          user: "poc"
+          passwd: "jnpr123"
+        load: 'merge'
+        lines:
+          - 'set routing-options static route "{{ destination }}" next-hop "{{ next_hop }}"'
+          - 'set interfaces "{{ interface}}".0 family inet address "{{ address }}"/"{{ mask }}"'
+        format: set
+      register: interface_info
+
+    - name: print the config chances
+      debug:
+        var: interface_info.diff_lines
