@@ -20,7 +20,7 @@ The script will configure a static route and configure an interface with variabl
 
 The inventory file has the IP address already listed under the [Junos] group.
 
-The ansible_python_interpreter variable may have to be removed, if Python path is ***not*** /usr/local/bin/python. For more information on this please visit the [ansible documentation](https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html).
+**The ansible_python_interpreter variable may have to be removed, if Python path is <u>*not* </u>  /usr/local/bin/python. To check what your python path is, run `which python` from your terminal. For more information on this please visit the [ansible documentation](https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html).**
 
 ### Usage
 To use this script please do the following:
@@ -30,7 +30,7 @@ To use this script please do the following:
 3. Run the script:
       `ansible-playbook retrieve.yaml -i inventory`
 
-4. It will give you a series of prompt. If you skip/press 'return' or 'enter', the script will default to a bogus set of variables and configure the device with that IP/route. 
+4. It will give you a series of prompt. If you skip/press 'return' or 'enter', the script will default to a bogus set of variables and configure the device with that IP/route.
 
 ### Notes
 
